@@ -134,41 +134,122 @@ yarn format:check  # verify formatting without modifying files
 ## Project Structure
 
 ```
-src/
-  app/
-    router.tsx          ← route definitions (React Router)
-    providers.tsx        ← global provider composition
-  components/
-    ui/                  ← atomic, reusable components (Button, Input, Modal)
-    features/            ← feature-specific components
-  features/
-    [feature-name]/
-      components/        ← components scoped to this feature
-      hooks/             ← hooks scoped to this feature
-      services/          ← API calls for this feature
-      store/             ← Zustand store (only if global state is needed)
-      types/             ← TypeScript types for this feature
-      index.ts           ← barrel export (public API of the feature)
-  hooks/                 ← shared, reusable hooks
-  services/
-    api-client.ts        ← configured axios instance
-  store/                 ← global Zustand stores
-  types/                 ← global and shared TypeScript types
-  utils/                 ← pure utility functions
-  config/
-    env.ts               ← environment variables validated with Zod
-  lib/
-    query-client.ts      ← TanStack Query client configuration
-  tests/
-    setup.ts             ← Vitest global setup
-    mocks/
-      handlers.ts        ← MSW request handlers
-      server.ts          ← MSW server instance
-      fixtures/          ← reusable mock data factories
-    utils/
-      test-utils.tsx     ← custom render with all providers
+index.html
+├── ia/skills/             ← specialized skills — see routing instruction above
+├── .github/copilot-instructions.md
+├── package.json
+├── README.md
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+├── yarn.lock
+├── .eslintrc.cjs
+├── azure-pipelines.yml
+├── ADOPipelineDeployment.yml
+├── ADOPipelineDockerfile.yml
+├── ADOPipelineService.yml
+├── cs_replacestringfromfile.ps1
+│
+├── nginx/
+│   ├── nginx.conf
+│   ├── self-signed.conf
+│   ├── 50x.html
+│   └── errorhttp.html
+│
+└── src/
+    ├── App.tsx
+    ├── main.tsx
+    ├── styles.scss
+    ├── vite-env.d.ts
+    │
+    ├── config/
+    │   ├── .env.local
+    │   ├── .env.dev
+    │   ├── .env.qa
+    │   └── .env.prod
+    │
+    ├── theme/
+    │   ├── Theme.ts
+    │   └── AppTheme.tsx
+    │
+    ├── router/
+    │   └── AppRouter.tsx
+    │
+    ├── api/
+    │   ├── index.ts              # Re-exports all API instances
+    │   ├── httpInterceptor.ts    # Axios instance, auth headers and error handling
+    │   └── api[Domain].ts        # One file per business domain (e.g. apiUsers, apiPayments)
+    │
+    ├── store/
+    │   ├── index.ts
+    │   ├── store.ts
+    │   ├── interfaces/
+    │   └── slices/
+    │
+    ├── auth/
+    │   ├── components/
+    │   │   ├── Login.ts
+    │   │   └── MsalInstance.ts
+    │   └── hooks/
+    │       └── useCheckAuth.tsx
+    │
+    ├── shared/
+    │   ├── index.ts
+    │   ├── components/
+    │   ├── helpers/
+    │   ├── icons/
+    │   ├── interfaces/
+    │   ├── services/
+    │   └── utils/
+    │
+    └── [feature]/
+    |   ├── index.ts                  # Barrel export — re-exports everything public from the feature
+    |   │
+    |   ├── components/               # UI components exclusive to this feature
+    |   │   ├── index.ts              # Barrel export of all components
+    |   │   └── [sub-feature]/        # Subfolder for each complex functional group
+    |   │       └── [Component].tsx
+    |   │
+    |   ├── helpers/                  # Pure helper functions (no side effects)
+    |   │   └── [name].helper.ts
+    |   │
+    |   ├── hooks/                    # Custom hooks: data logic and behavior
+    |   │   ├── index.ts
+    |   │   └── use[Action][Subject].tsx
+    |   │
+    |   ├── interfaces/               # TypeScript types and interfaces for this feature
+    |   │   └── [Entity].interface.ts
+    |   │
+    |   ├── pages/                    # Full routed views (one per screen)
+    |   │   └── [Feature]Page.tsx
+    |   │
+    |   ├── routers/                  # Route definitions for this feature
+    |   │   └── [Feature]Router.tsx   # Imported and mounted in src/router/AppRouter.tsx
+    |   │
+    |   └── services/                 # Business logic: orchestrates API calls
+    |       └── [feature][Action].service.ts
+    └── assets/
+        ├── enums/
+        │   └── enums.ts
+        ├── images/
+        │   └── svg/
+        ├── mocks/
+        │   ├── accordion-list.json
+        │   ├── en.json
+        │   ├── es.json
+        │   ├── options-custom-select.json
+        │   ├── question-category-list.json
+        │   └── settings-list.json
+        └── styles/
+            ├── general.style.scss        # Global reset and base rules
+            ├── theme.scss                # SCSS variables and mixins — single source of truth
+            ├── header.style.scss
+            ├── form.style.scss
+            ├── table.style.scss
+            ├── report.style.scss
+            └── [feature]/               # One subfolder per business feature
+                └── [component].style.scss
 
-ia/skills/             ← specialized skills — see routing instruction above
 ```
 
 ---
